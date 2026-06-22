@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Index</title>
+  <meta name="description" content="Two interactive portfolio concepts — a fashion editorial and a cinematic music artist site." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Archivo", system-ui, sans-serif;
+      background: #0c0c0d; color: #f2efe9; min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    .intro { text-align: center; padding: 70px 24px 30px; }
+    .intro p { letter-spacing: 0.28em; text-transform: uppercase; font-size: 0.74rem; opacity: 0.6; }
+    .intro h1 { font-family: "Anton", sans-serif; font-size: clamp(2.4rem, 7vw, 5rem); margin-top: 12px; letter-spacing: 0.01em; }
+    .intro span { opacity: 0.65; display: block; margin-top: 14px; font-size: 1rem; max-width: 560px; margin-inline: auto; }
+    .grid {
+      flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      padding: 40px; max-width: 1200px; margin: 0 auto; width: 100%;
+    }
+    .card {
+      position: relative; min-height: 60vh; border-radius: 20px; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 40px; text-decoration: none; color: inherit;
+      transition: transform 0.4s ease;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .card::before { content: ""; position: absolute; inset: 0; transition: transform 1s ease; }
+    .card:hover::before { transform: scale(1.06); }
+    .card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent, rgba(0,0,0,0.75)); }
+    .card--fashion::before { background: linear-gradient(135deg, #d9879f, #cdbBa4); filter: grayscale(0.2); }
+    .card--music::before { background: linear-gradient(135deg, #1b2a22, #0a0f0c); }
+    .card__body { position: relative; z-index: 2; }
+    .card__tag { letter-spacing: 0.24em; text-transform: uppercase; font-size: 0.72rem; opacity: 0.8; }
+    .card__title { font-family: "Anton", sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); margin: 10px 0; }
+    .card__desc { opacity: 0.85; max-width: 360px; font-size: 0.95rem; }
+    .card__cta { display: inline-block; margin-top: 20px; font-weight: 700; }
+    footer { text-align: center; padding: 24px; font-size: 0.78rem; opacity: 0.5; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="intro">
+    <p>Interactive Build · Placeholder Images</p>
+    <h1>Two Portfolio Concepts</h1>
+    <span>Built from the brief: a black-and-white→colour "brush reveal" fashion editorial,
+    and a cinematic, parallax music-artist site. Open either to explore.</span>
+  </div>
+
+  <div class="grid">
+    <a class="card card--fashion" href="fashion/index.html">
+      <div class="card__body">
+        <p class="card__tag">01 — Editorial</p>
+        <h2 class="card__title">ATELIER</h2>
+        <p class="card__desc">A premium fashion portfolio. The hero portrait is
+          monochrome until your cursor paints it back to colour — bow and all.</p>
+        <span class="card__cta">Enter →</span>
+      </div>
+    </a>
+
+    <a class="card card--music" href="music/index.html">
+      <div class="card__body">
+        <p class="card__tag">02 — Cinematic</p>
+        <h2 class="card__title">SIVERT HØYEM</h2>
+        <p class="card__desc">A moody, nature-inspired artist site with a fullscreen
+          hero, parallax drift, and slow cinematic reveals.</p>
+        <span class="card__cta">Enter →</span>
+      </div>
+    </a>
+  </div>
+
+  <footer>Replace the placeholder images in each <code>images/</code> folder with your own.</footer>
+</body>
+</html>

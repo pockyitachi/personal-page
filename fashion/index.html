@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATELIER — Fashion Portfolio</title>
+  <meta name="description" content="Editorial fashion portfolio — styling, look-building and creative direction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Bold condensed display face for headlines + clean sans for body -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       1. HERO
+       Dark, rounded outer container. Oversized "DESIGNER" word sits
+       behind a centred portrait. The portrait is grayscale until the
+       cursor paints colour onto it (see script.js brush reveal).
+       ============================================================ -->
+  <header class="hero" id="top">
+    <div class="hero__frame">
+
+      <!-- Top navigation inside the hero -->
+      <nav class="nav" aria-label="Primary">
+        <a href="#top" class="nav__logo">ATELIER<span>®</span></a>
+        <ul class="nav__links" id="navLinks">
+          <li><a href="#top">Home</a></li>
+          <li><a href="#about">Who Dis?</a></li>
+          <li><a href="#creations">My Vibes</a></li>
+          <li><a href="#footer">Hit Me Up</a></li>
+        </ul>
+        <a href="#footer" class="nav__btn">Let's Talk</a>
+        <button class="nav__burger" id="navBurger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+
+      <!-- Oversized background word -->
+      <h1 class="hero__display" aria-hidden="true">DESIGNER</h1>
+
+      <!-- Supporting copy, left -->
+      <div class="hero__aside hero__aside--left">
+        <p class="hero__kicker">Styled to perfection</p>
+        <p class="hero__lede">
+          An editorial fashion practice built on instinct, texture and
+          fearless colour. Move your cursor across the portrait.
+        </p>
+      </div>
+
+      <!-- Circular stamp, right -->
+      <div class="hero__aside hero__aside--right">
+        <div class="stamp" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <path id="circlePath" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
+            </defs>
+            <text><textPath href="#circlePath">EDITORIAL • FASHION • STYLING • SINCE 2024 • </textPath></text>
+          </svg>
+          <span class="stamp__core">✦</span>
+        </div>
+      </div>
+
+      <!-- Hero portrait with brush reveal.
+           .hero-bw = grayscale base, .hero-color = colour layer masked
+           by a radial gradient that follows the cursor. -->
+      <div class="hero-image" id="heroImage">
+        <img src="images/hero-bw.jpg" class="hero-bw" alt="Fashion portrait, monochrome" />
+        <img src="images/hero-color.jpg" class="hero-color" id="heroColor" alt="" aria-hidden="true" />
+      </div>
+
+      <p class="hero__scrollcue">Scroll ↓</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============================================================
+         2. ABOUT ME — light editorial section
+         ============================================================ -->
+    <section class="about" id="about">
+      <div class="about__head reveal">
+        <p class="eyebrow">About Me</p>
+        <p class="about__intro">
+          A multidisciplinary stylist shaping silhouettes, moods and stories.
+          Every look is a study in proportion, restraint and a single
+          unapologetic note of colour.
+        </p>
+      </div>
+
+      <h2 class="bigline reveal">THE GIFTED HANDS<br />THAT SHAPE FASHION</h2>
+
+      <!-- Staggered, differently-sized image cards -->
+      <div class="about__grid">
+        <figure class="about__card about__card--a reveal">
+          <img src="images/about-1.jpg" alt="Look one" />
+        </figure>
+        <figure class="about__card about__card--b reveal">
+          <img src="images/about-2.jpg" alt="Look two" />
+        </figure>
+        <figure class="about__card about__card--c reveal">
+          <img src="images/about-3.jpg" alt="Look three" />
+        </figure>
+        <figure class="about__card about__card--d reveal">
+          <img src="images/about-4.jpg" alt="Look four" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. SKILLS & EXPERTISE — dark section
+         ============================================================ -->
+    <section class="skills" id="skills">
+      <div class="skills__top reveal">
+        <p class="eyebrow eyebrow--light">Skills &amp; Expertise</p>
+        <h2 class="skills__title">A craft refined<br />season after season</h2>
+      </div>
+
+      <!-- Decorative flower/blob indicator connected by a line -->
+      <div class="skills__indicator reveal" aria-hidden="true">
+        <span class="blob"></span><span class="blob"></span>
+        <span class="blob blob--active"></span><span class="blob"></span>
+        <span class="blob"></span>
+      </div>
+
+      <div class="skills__row">
+        <p class="skills__pct reveal">60%</p>
+        <div class="skills__detail reveal">
+          <h3>STYLING &amp; LOOK-BUILDING</h3>
+          <p>Composition, layering and the discipline of editing a look down
+             to its most powerful form.</p>
+        </div>
+      </div>
+
+      <div class="skills__row">
+        <p class="skills__pct reveal">85%</p>
+        <div class="skills__detail reveal">
+          <h3>CREATIVE DIRECTION</h3>
+          <p>Concepting shoots end-to-end — casting, set, palette and the
+             emotional thread that ties a story together.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. CREATIONS / GALLERY — light, JS carousel
+         ============================================================ -->
+    <section class="creations" id="creations">
+      <div class="creations__head reveal">
+        <p class="eyebrow">Selected work</p>
+        <h2 class="bigline bigline--center">OUR CREATIONS</h2>
+      </div>
+
+      <div class="carousel reveal">
+        <div class="carousel__track" id="carouselTrack">
+          <figure class="slide"><img src="images/creation-1.jpg" alt="Creation one" /><figcaption>Monochrome Study</figcaption></figure>
+          <figure class="slide"><img src="images/creation-2.jpg" alt="Creation two" /><figcaption>Soft Tailoring</figcaption></figure>
+          <figure class="slide"><img src="images/creation-3.jpg" alt="Creation three" /><figcaption>Drape &amp; Volume</figcaption></figure>
+          <figure class="slide"><img src="images/creation-4.jpg" alt="Creation four" /><figcaption>Texture Play</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="carousel__nav">
+        <button class="carousel__btn" id="prevBtn" aria-label="Previous">←</button>
+        <button class="carousel__btn" id="nextBtn" aria-label="Next">→</button>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. CIRCULAR TEXT STATEMENT — dark
+         ============================================================ -->
+    <section class="statement">
+      <div class="statement__ring reveal">
+        <svg class="statement__text" viewBox="0 0 300 300" aria-hidden="true">
+          <defs>
+            <path id="ringPath" d="M150,150 m-118,0 a118,118 0 1,1 236,0 a118,118 0 1,1 -236,0" />
+          </defs>
+          <text><textPath href="#ringPath">WHERE ELEGANCE AND FASHION BECOMES ART • WHERE ELEGANCE AND FASHION BECOMES ART • </textPath></text>
+        </svg>
+        <div class="statement__portrait">
+          <img src="images/circle-portrait.jpg" alt="Editorial portrait" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         6. TESTIMONIALS — light, petal-shaped cards
+         ============================================================ -->
+    <section class="testi" id="testimonials">
+      <h2 class="testi__title reveal">TESTIMONIALS</h2>
+      <div class="testi__grid">
+        <blockquote class="petal petal--white reveal">
+          <span class="petal__stars">★★★★★</span>
+          <p>"An eye that turns clothing into narrative. Every frame felt like a magazine cover."</p>
+          <cite>— Mara V., Editor</cite>
+        </blockquote>
+        <blockquote class="petal petal--pink reveal">
+          <span class="petal__stars">★★★★★</span>
+          <p>"Effortless taste and total control of mood. The colour reveal moment was genius."</p>
+          <cite>— Luca R., Photographer</cite>
+        </blockquote>
+        <blockquote class="petal petal--pink reveal">
+          <span class="petal__stars">★★★★★</span>
+          <p>"Minimal, intentional, unforgettable. Exactly the direction our brand needed."</p>
+          <cite>— Ines K., Creative Lead</cite>
+        </blockquote>
+        <blockquote class="petal petal--white reveal">
+          <span class="petal__stars">★★★★★</span>
+          <p>"Worked the room and the rail with the same precision. A true stylist."</p>
+          <cite>— Theo M., Designer</cite>
+        </blockquote>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       7. FOOTER — closing fashion poster
+       ============================================================ -->
+  <footer class="footer" id="footer">
+    <div class="footer__top">
+      <p class="footer__big">THANK YOU</p>
+      <p class="footer__big footer__big--right">FOR VIEWING</p>
+    </div>
+
+    <h2 class="footer__display" aria-hidden="true">DESIGNER</h2>
+
+    <div class="footer__portrait">
+      <img src="images/footer-portrait.jpg" alt="Closing portrait" />
+    </div>
+
+    <div class="footer__bar">
+      <a href="../index.html" class="footer__home">← All work</a>
+      <ul class="footer__links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Behance</a></li>
+        <li><a href="#">Email</a></li>
+      </ul>
+      <p class="footer__copy">© <span id="year"></span> Atelier</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
