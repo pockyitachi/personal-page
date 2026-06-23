@@ -191,10 +191,10 @@
      meteor reads as one object anywhere on the page.
      -------------------------------------------------------- */
   var meteor = document.getElementById("meteorCanvas");
-  if (meteor && finePointer && !reduceMotion) {
+  if (meteor && !reduceMotion) {                 // runs on touch devices too
     var mctx = meteor.getContext("2d");
     var mdpr = Math.min(window.devicePixelRatio || 1, 2);
-    var mW = 0, mH = 0;
+    var mW = 0, mH = 0, maxTiles = 72;
     var pal = [[255, 46, 154], [124, 77, 255], [24, 199, 255], [255, 210, 63]];
     var MTILE = 16, MLIFE = 520;
     var tiles = [];
@@ -204,20 +204,28 @@
 
     function meteorSize() {
       mW = window.innerWidth; mH = window.innerHeight;
+      maxTiles = mW < 640 ? 44 : 72;             // fewer tiles on small screens
       meteor.width = Math.round(mW * mdpr); meteor.height = Math.round(mH * mdpr);
       mctx.setTransform(mdpr, 0, 0, mdpr, 0, 0);
     }
 
-    window.addEventListener("pointermove", function (e) {
-      ptrX = e.clientX; ptrY = e.clientY; mActive = true;
-      // drop a mosaic tile, snapped to a grid (skip duplicate cells)
+    function spawn() {
       var tx = Math.round(ptrX / MTILE) * MTILE, ty = Math.round(ptrY / MTILE) * MTILE;
       var last = tiles[tiles.length - 1];
       if (!last || last.tx !== tx || last.ty !== ty) {
         tiles.push({ tx: tx, ty: ty, born: performance.now(), col: pal[(palIdx++) % pal.length] });
-        if (tiles.length > 72) tiles.shift();
+        if (tiles.length > maxTiles) tiles.shift();
       }
+    }
+    window.addEventListener("pointermove", function (e) {
+      ptrX = e.clientX; ptrY = e.clientY; mActive = true; spawn();
     }, { passive: true });
+    // touch: show the meteor while a finger is down, hide it on release
+    window.addEventListener("pointerdown", function (e) {
+      ptrX = e.clientX; ptrY = e.clientY; hx = ptrX; hy = ptrY; mActive = true; spawn();
+    }, { passive: true });
+    window.addEventListener("pointerup", function () { mActive = false; }, { passive: true });
+    window.addEventListener("pointercancel", function () { mActive = false; }, { passive: true });
     window.addEventListener("pointerout", function () { mActive = false; });
 
     function meteorTick() {

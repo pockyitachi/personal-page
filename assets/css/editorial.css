@@ -317,8 +317,19 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
   .nav__burger { display: flex; }
 }
 
+@media (max-width: 480px) {
+  /* let the long name wrap instead of overflowing on small phones */
+  .hero__name { white-space: normal; }
+  .container { padding: 0 18px; }
+  .section { padding: 64px 0; }
+  .hero { padding: 48px 0 60px; }
+  .nav__inner { height: 60px; }
+  .nav__actions { gap: 8px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
   .fx-canvas { display: none; }
+  .meteor-canvas { display: none; }
   .loader { display: none; }
 }
