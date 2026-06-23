@@ -1,26 +1,31 @@
-# Portfolio — Two Interactive Concepts
+# Linqiang Guo — Personal Homepage
 
-Built from the design brief in the linked spec. Because the original Feishu
-document was access-protected, this repo implements the two website briefs the
-spec contained, as static, framework-free sites with **placeholder images you
-can swap out**.
+Personal site for **Linqiang Guo**, a Software Engineering PhD researcher at
+Concordia University (AI-driven mobile automation, LLM agents, multimodal VLM
+pipelines). Built as a static, framework-free site (HTML + CSS + vanilla JS).
+
+The root [`index.html`](index.html) is the main homepage, generated from the
+résumé in [`assets/files/`](assets/files/). It includes:
+
+- **Hero** with role, summary, and CV download
+- **About** + **Education** timeline
+- **Skills** (languages, AI/ML frameworks, backend & platforms)
+- **Publications** (AAAI 2026, ICSE 2025, COLM 2025 Workshop, and more)
+- **Experience** timeline (SPEAR Lab, Concordia TA, Walmart Global Tech, CPECC)
+- **Projects** and **Contact**
+- Light/dark theme toggle (remembers your choice), responsive, smooth scroll reveals
+
+## Design experiments
+
+Two earlier interactive concept builds also live in the repo and are linked from
+the footer:
 
 | Concept | Folder | Signature interaction |
 | --- | --- | --- |
-| **ATELIER** — editorial fashion portfolio | [`fashion/`](fashion/) | Hero portrait is grayscale until your cursor *paints* colour onto it (soft radial brush reveal). |
-| **SIVERT HØYEM** — cinematic music artist | [`music/`](music/) | Fullscreen image hero, parallax drift on scroll, slow cinematic reveals, lazy video embed. |
-
-The root [`index.html`](index.html) is a landing page that links to both.
-
-## Tech
-
-- Plain **HTML + CSS + vanilla JavaScript**. No frameworks, no build step.
-- Semantic markup, responsive (desktop / tablet / mobile), `prefers-reduced-motion` respected.
-- Each site is fully self-contained in its folder (`index.html`, `style.css`, `script.js`, `images/`).
+| **ATELIER** — fashion editorial | [`fashion/`](fashion/) | Hero portrait is grayscale until the cursor *paints* colour onto it. |
+| **SIVERT HØYEM** — cinematic artist | [`music/`](music/) | Fullscreen parallax hero, slow cinematic reveals, lazy video embed. |
 
 ## Run locally
-
-Just open `index.html` in a browser, or serve the folder:
 
 ```bash
 python3 -m http.server 8000
@@ -29,30 +34,16 @@ python3 -m http.server 8000
 
 ## Deploy on GitHub Pages
 
-1. Push this branch and open **Settings → Pages**.
-2. Set **Source** to *Deploy from a branch*, pick this branch, folder `/ (root)`.
-3. The site publishes at `https://<username>.github.io/personal-page/`.
+1. **Settings → Pages → Source:** *Deploy from a branch*, branch `main`, folder `/ (root)`.
+2. Publishes at `https://pockyitachi.github.io/personal-page/`.
+3. For a root URL (`https://pockyitachi.github.io`), rename the repo to
+   `pockyitachi.github.io`.
 
 A `.nojekyll` file is included so all folders are served as-is.
 
-## Replacing the placeholder images
+## Updating content
 
-Every image is a generated placeholder JPG. Drop your real photos into the
-`images/` folders using the **same filenames** and the layouts pick them up
-automatically:
-
-**`fashion/images/`** — `hero-bw.jpg`, `hero-color.jpg` (same subject; the brush
-reveal stacks them), `about-1..4.jpg`, `creation-1..4.jpg`, `circle-portrait.jpg`,
-`footer-portrait.jpg`.
-
-> For the hero brush reveal, `hero-bw.jpg` and `hero-color.jpg` should be the
-> **same photo** — one grayscale, one colour, identical framing — ideally a
-> PNG/transparent cut-out so the figure floats over the giant background word.
-
-**`music/images/`** — `hero.jpg` (large cinematic portrait), `album-1..3.jpg`,
-`gallery-1..6.jpg`, `video-poster.jpg`.
-
-In `music/index.html`, set the real video on the `data-embed` attribute of
-`#videoFrame`.
-
-To regenerate the placeholders: `python3 tools/gen_placeholders.py` (needs Pillow).
+- Replace the portrait at [`assets/img/portrait.svg`](assets/img/portrait.svg)
+  with a real photo (keep the filename, or update the `<img>` in `index.html`).
+- Swap the résumé at `assets/files/Linqiang_Guo_Resume_2026.pdf`.
+- All text content lives directly in `index.html`.
