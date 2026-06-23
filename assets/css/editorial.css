@@ -312,8 +312,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
   .about-grid { grid-template-columns: 1fr; gap: 34px; }
   .facts { grid-template-columns: 1fr; }
   .skills { grid-template-columns: 1fr; }
-  .pub { grid-template-columns: 48px 1fr; }
-  .pub__venue { grid-column: 2; }
+  .pub { grid-template-columns: 1fr; gap: 8px; }
+  .pub__no { font-size: 1.2rem; }
+  .pub__venue { grid-column: auto; }
   .news__item { grid-template-columns: 1fr; gap: 4px; }
 
   .nav__links {
