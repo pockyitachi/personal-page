@@ -5,6 +5,54 @@
   "use strict";
 
   var root = document.documentElement;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --------------------------------------------------------
+     0a. INTRO LOADER
+     Dismiss once the page has loaded (with a short minimum so
+     the animation reads), plus a safety timeout.
+     -------------------------------------------------------- */
+  var loader = document.getElementById("loader");
+  if (loader) {
+    var done = false;
+    function hideLoader() { if (!done) { done = true; loader.classList.add("is-done"); } }
+    if (reduceMotion) {
+      hideLoader();
+    } else {
+      var started = Date.now();
+      window.addEventListener("load", function () {
+        setTimeout(hideLoader, Math.max(0, 1050 - (Date.now() - started)));
+      });
+      setTimeout(hideLoader, 2600); // safety net if 'load' already fired
+    }
+  }
+
+  /* --------------------------------------------------------
+     0b. CUSTOM CURSOR (fine-pointer devices only)
+     A small dot tracks the pointer exactly; a larger ring
+     trails with easing and grows over interactive elements.
+     -------------------------------------------------------- */
+  var cDot = document.getElementById("cursorDot");
+  var cRing = document.getElementById("cursorRing");
+  var finePointer = window.matchMedia("(pointer: fine)").matches;
+  if (cDot && cRing && finePointer && !reduceMotion) {
+    root.classList.add("has-custom-cursor");
+    var cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+    var rx = cx, ry = cy;
+    window.addEventListener("pointermove", function (e) {
+      cx = e.clientX; cy = e.clientY;
+      cDot.style.transform = "translate(" + cx + "px," + cy + "px) translate(-50%,-50%)";
+    }, { passive: true });
+    (function ringLoop() {
+      rx += (cx - rx) * 0.18; ry += (cy - ry) * 0.18;
+      cRing.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
+      requestAnimationFrame(ringLoop);
+    })();
+    document.querySelectorAll("a, button, .reveal-frame").forEach(function (el) {
+      el.addEventListener("mouseenter", function () { cRing.classList.add("is-hover"); });
+      el.addEventListener("mouseleave", function () { cRing.classList.remove("is-hover"); });
+    });
+  }
 
   /* --------------------------------------------------------
      1a. CURSOR-FOLLOWING COLOUR FILL ON THE BIG NAME (炫彩)

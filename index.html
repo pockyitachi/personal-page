@@ -9,9 +9,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/img/portrait.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="assets/css/editorial.css?v=3" />
+  <link rel="stylesheet" href="assets/css/editorial.css?v=4" />
 </head>
 <body>
+
+  <!-- intro loader (dismissed by JS once the page is ready) -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <span class="loader__name">Linqiang Guo</span>
+      <span class="loader__bar"><i></i></span>
+    </div>
+  </div>
 
   <!-- full-page interactive dot grid (drawn in JS), behind all content -->
   <canvas class="fx-canvas" id="fxCanvas" aria-hidden="true"></canvas>
@@ -317,6 +325,10 @@
     </div>
   </footer>
 
-  <script src="assets/js/editorial.js?v=3"></script>
+  <!-- custom cursor (shown only on fine-pointer devices) -->
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <script src="assets/js/editorial.js?v=4"></script>
 </body>
 </html>
