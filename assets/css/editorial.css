@@ -112,15 +112,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
 .nav.scrolled { border-bottom-color: var(--line); }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
 .nav__brand { display: inline-flex; align-items: center; }
-.brandmark {
-  display: inline-grid; place-items: center; width: 40px; height: 40px;
-  border-radius: 11px; font-family: var(--font-display); font-size: 1.05rem;
-  letter-spacing: 0.04em; color: var(--ink);
-  background: linear-gradient(135deg, var(--c1), var(--c2) 55%, var(--c3));
-  box-shadow: 0 6px 18px rgba(124,77,255,0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.nav__brand:hover .brandmark { transform: translateY(-1px) rotate(-3deg); box-shadow: 0 8px 22px rgba(124,77,255,0.5); }
+.brandmark-img { display: block; width: 40px; height: 40px; transition: transform 0.2s ease; }
+.nav__brand:hover .brandmark-img { transform: translateY(-1px) rotate(-3deg); }
 .nav__links { display: flex; gap: 26px; }
 .nav__links a {
   font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
