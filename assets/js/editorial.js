@@ -201,35 +201,47 @@
     var ptrX = window.innerWidth / 2, ptrY = window.innerHeight / 2; // raw pointer
     var hx = ptrX, hy = ptrY;                                         // smoothed head
     var palIdx = 0, mActive = false;
+    var lpx = ptrX, lpy = ptrY;                  // last point a tile was dropped at
+    var glow = finePointer ? 1 : 0.5;            // lighter glow on touch -> smoother
 
     function meteorSize() {
       mW = window.innerWidth; mH = window.innerHeight;
-      maxTiles = mW < 640 ? 44 : 72;             // fewer tiles on small screens
+      maxTiles = mW < 640 ? 56 : 80;
       meteor.width = Math.round(mW * mdpr); meteor.height = Math.round(mH * mdpr);
       mctx.setTransform(mdpr, 0, 0, mdpr, 0, 0);
     }
 
-    function spawn() {
-      var tx = Math.round(ptrX / MTILE) * MTILE, ty = Math.round(ptrY / MTILE) * MTILE;
+    function addTile(x, y) {
+      var tx = Math.round(x / MTILE) * MTILE, ty = Math.round(y / MTILE) * MTILE;
       var last = tiles[tiles.length - 1];
       if (!last || last.tx !== tx || last.ty !== ty) {
         tiles.push({ tx: tx, ty: ty, born: performance.now(), col: pal[(palIdx++) % pal.length] });
         if (tiles.length > maxTiles) tiles.shift();
       }
     }
+    // drop tiles along the path so fast swipes leave a continuous, smooth trail
+    function trailTo(x, y) {
+      var dx = x - lpx, dy = y - lpy, dist = Math.sqrt(dx * dx + dy * dy);
+      var step = MTILE * 0.55;
+      if (dist <= step) { addTile(x, y); lpx = x; lpy = y; return; }
+      var n = Math.min(48, Math.ceil(dist / step));
+      for (var i = 1; i <= n; i++) addTile(lpx + dx * i / n, lpy + dy * i / n);
+      lpx = x; lpy = y;
+    }
     window.addEventListener("pointermove", function (e) {
-      ptrX = e.clientX; ptrY = e.clientY; mActive = true; spawn();
+      ptrX = e.clientX; ptrY = e.clientY; mActive = true; trailTo(ptrX, ptrY);
     }, { passive: true });
     // touch: show the meteor while a finger is down, hide it on release
     window.addEventListener("pointerdown", function (e) {
-      ptrX = e.clientX; ptrY = e.clientY; hx = ptrX; hy = ptrY; mActive = true; spawn();
+      ptrX = e.clientX; ptrY = e.clientY; hx = ptrX; hy = ptrY; lpx = ptrX; lpy = ptrY;
+      mActive = true; addTile(ptrX, ptrY);
     }, { passive: true });
     window.addEventListener("pointerup", function () { mActive = false; }, { passive: true });
     window.addEventListener("pointercancel", function () { mActive = false; }, { passive: true });
     window.addEventListener("pointerout", function () { mActive = false; });
 
     function meteorTick() {
-      hx += (ptrX - hx) * 0.28; hy += (ptrY - hy) * 0.28;
+      hx += (ptrX - hx) * 0.32; hy += (ptrY - hy) * 0.32;
       mctx.clearRect(0, 0, mW, mH);
       var now = performance.now();
 
@@ -239,7 +251,7 @@
         var k = 1 - (now - p.born) / MLIFE;
         if (k <= 0) { tiles.splice(i, 1); continue; }
         var s = 3 + (MTILE - 2) * k;
-        mctx.shadowBlur = 12 * k;
+        mctx.shadowBlur = 12 * k * glow;
         mctx.shadowColor = "rgba(" + p.col[0] + "," + p.col[1] + "," + p.col[2] + ",0.9)";
         mctx.fillStyle = "rgba(" + p.col[0] + "," + p.col[1] + "," + p.col[2] + "," + (k * 0.85) + ")";
         mctx.fillRect(p.tx - s / 2, p.ty - s / 2, s, s);
@@ -247,7 +259,7 @@
 
       // bright meteor head at the smoothed cursor position
       if (mActive) {
-        mctx.shadowBlur = 22; mctx.shadowColor = "rgba(255,90,170,0.95)";
+        mctx.shadowBlur = 22 * glow; mctx.shadowColor = "rgba(255,90,170,0.95)";
         var g = mctx.createRadialGradient(hx, hy, 0, hx, hy, 10);
         g.addColorStop(0, "rgba(255,255,255,0.98)");
         g.addColorStop(0.45, "rgba(255,90,170,0.95)");
