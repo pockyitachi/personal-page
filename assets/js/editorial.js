@@ -8,6 +8,26 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* --------------------------------------------------------
+     THEME TOGGLE (dark default / light day mode, persisted)
+     -------------------------------------------------------- */
+  var themeBtn = document.getElementById("themeToggle");
+  var themeIcon = document.getElementById("themeIcon");
+  var theme = localStorage.getItem("theme") || "dark";
+  function applyTheme(t) {
+    theme = t;
+    if (t === "light") root.setAttribute("data-theme", "light");
+    else root.removeAttribute("data-theme");
+    if (themeIcon) themeIcon.textContent = (t === "dark") ? "☀️" : "🌙";
+  }
+  applyTheme(theme);
+  if (themeBtn) {
+    themeBtn.addEventListener("click", function () {
+      applyTheme(theme === "dark" ? "light" : "dark");
+      localStorage.setItem("theme", theme);
+    });
+  }
+
+  /* --------------------------------------------------------
      0a. INTRO LOADER
      Dismiss once the page has loaded (with a short minimum so
      the animation reads), plus a safety timeout.
@@ -91,10 +111,16 @@
     var W = 0, H = 0;
     // iridescent palette (matches the CSS --c1..--c4)
     var palette = [[255, 46, 154], [124, 77, 255], [24, 199, 255], [255, 210, 63]];
-    var BASE = [150, 150, 165]; // dim resting colour
+    // resting dot colour differs by theme so dots stay visible on light bg
+    function baseColour() { return theme === "light" ? [120, 120, 138] : [150, 150, 165]; }
 
     // smoothed pointer in viewport coords; start off-screen
     var mx = -9999, my = -9999, sx = -9999, sy = -9999;
+
+    // mosaic trail tiles spawned behind the cursor
+    var trail = [];
+    var TILE = 18;   // grid cell -> mosaic snap
+    var LIFE = 650;  // ms before a tile fades out
 
     function build() {
       W = window.innerWidth; H = window.innerHeight;
@@ -118,6 +144,9 @@
     function tick() {
       sx += (mx - sx) * 0.16; sy += (my - sy) * 0.16;
       ctx.clearRect(0, 0, W, H);
+      var BASE = baseColour();
+
+      // 1) the resting/interactive dot grid
       for (var i = 0; i < dots.length; i++) {
         var d = dots[i];
         var dx = d.bx - sx, dy = d.by - sy;
@@ -138,12 +167,34 @@
         ctx.arc(x, y, size, 0, Math.PI * 2);
         ctx.fill();
       }
+
+      // 2) the mosaic trail behind the cursor (newest = brightest)
+      var now = performance.now();
+      for (var k = trail.length - 1; k >= 0; k--) {
+        var p = trail[k];
+        var age = (now - p.born) / LIFE;
+        if (age >= 1) { trail.splice(k, 1); continue; }
+        var al = (1 - age) * 0.62;
+        ctx.fillStyle = "rgba(" + p.col[0] + "," + p.col[1] + "," + p.col[2] + "," + al + ")";
+        var s = TILE - 3; // small gap between tiles -> mosaic look
+        ctx.fillRect(p.tx - s / 2, p.ty - s / 2, s, s);
+      }
+
       requestAnimationFrame(tick);
     }
 
     // canvas is fixed at viewport 0,0, so pointer coords map directly
     window.addEventListener("pointermove", function (e) {
       mx = e.clientX; my = e.clientY;
+      // spawn a mosaic tile snapped to the grid (skip duplicates)
+      var tx = Math.round(e.clientX / TILE) * TILE;
+      var ty = Math.round(e.clientY / TILE) * TILE;
+      var last = trail[trail.length - 1];
+      if (!last || last.tx !== tx || last.ty !== ty) {
+        trail.push({ tx: tx, ty: ty, born: performance.now(),
+                     col: palette[(Math.random() * palette.length) | 0] });
+        if (trail.length > 140) trail.shift();
+      }
     }, { passive: true });
     window.addEventListener("pointerout", function () { mx = -9999; my = -9999; });
 
