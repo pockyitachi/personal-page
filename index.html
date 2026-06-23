@@ -9,9 +9,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/img/portrait.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="assets/css/editorial.css?v=20260623" />
+  <link rel="stylesheet" href="assets/css/editorial.css?v=2" />
 </head>
 <body>
+
+  <!-- full-page interactive dot grid (drawn in JS), behind all content -->
+  <canvas class="fx-canvas" id="fxCanvas" aria-hidden="true"></canvas>
 
   <!-- ===== Navigation ===== -->
   <header class="nav" id="nav">
@@ -21,7 +24,6 @@
         <a href="#about">About</a>
         <a href="#publications">Papers</a>
         <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="nav__actions">
@@ -35,7 +37,6 @@
 
     <!-- ===== Hero ===== -->
     <section class="hero">
-      <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
       <div class="container hero__inner">
         <div class="hero__text">
           <p class="hero__eyebrow eyebrow">PhD Researcher · <b>Software Engineering</b></p>
@@ -54,7 +55,6 @@
           <div class="hero__socials">
             <a href="https://github.com/pockyitachi" target="_blank" rel="noopener">GitHub</a>
             <a href="mailto:linqg327@gmail.com">Email</a>
-            <a href="tel:+14378180327">(437) 818-0327</a>
           </div>
         </div>
         <div class="hero__media">
@@ -176,11 +176,11 @@
           </li>
           <li class="pub" data-reveal>
             <span class="pub__no"></span>
-            <span class="pub__venue"><span class="badge badge--soft">IF 7.422</span></span>
+            <span class="pub__venue"><span class="badge badge--soft">CMIG</span></span>
             <div class="pub__body">
               <h3>Registration on DCE-MRI Images via Multi-Domain Image-to-Image Translation</h3>
               <p class="pub__authors">Naxin Cai, Houjin Chen, Yanfeng Li, Yahui Peng, <strong>Linqiang Guo</strong></p>
-              <p class="pub__note">Computerized Medical Imaging and Graphics</p>
+              <p class="pub__note">Computerized Medical Imaging and Graphics (IF 7.422)</p>
             </div>
           </li>
           <li class="pub" data-reveal>
@@ -255,54 +255,16 @@
       </div>
     </section>
 
-    <!-- ===== Projects ===== -->
-    <section class="section section--paper" id="projects">
-      <div class="container">
-        <div class="section__head">
-          <span class="eyebrow">05 — Projects</span>
-          <h2 class="bigtitle">Selected Projects</h2>
-        </div>
-        <div class="projects">
-          <article class="project" data-reveal>
-            <div class="project__top"><h3>Face Recognition System</h3><span class="project__date">May 2022</span></div>
-            <p>Compared Deep Learning vs. Bag-of-Visual-Words for face recognition. Modified GoogLeNet with custom layers via transfer learning; multi-SVM over a BoVW codebook. 83.5% (DL) vs. 58.5% (BoVW).</p>
-            <ul class="tags"><li>Deep Learning</li><li>Computer Vision</li><li>Transfer Learning</li></ul>
-          </article>
-          <article class="project" data-reveal>
-            <div class="project__top"><h3>Online Ticket Ordering System</h3><span class="project__date">Jun 2021</span></div>
-            <p>Spring microservices with a React front-end for event search and recommendations. MySQL/MongoDB for CRUD; an ML-based recommender driven by user preferences.</p>
-            <ul class="tags"><li>Microservices</li><li>Spring</li><li>React</li><li>MySQL</li></ul>
-          </article>
-          <article class="project" data-reveal>
-            <div class="project__top"><h3>Color Image Enhancement</h3><span class="project__date">Oct 2021</span></div>
-            <p>Image-processing pipeline for feature matching: high-boost &amp; Laplacian sharpening, per-channel Gaussian denoising, histogram equalization, and homomorphic illumination correction.</p>
-            <ul class="tags"><li>Image Processing</li><li>OpenCV</li><li>Filtering</li></ul>
-          </article>
-          <article class="project" data-reveal>
-            <div class="project__top"><h3>Game Outcome Prediction</h3><span class="project__date">Apr 2021</span></div>
-            <p>Predicted winners from a ~9,900-game League of Legends dataset (47 attributes). Cleaned to ~7,000 samples / 30 attributes; compared SVM, Decision Tree, and Logistic Regression.</p>
-            <ul class="tags"><li>Data Mining</li><li>Machine Learning</li><li>SVM</li></ul>
-          </article>
-          <article class="project" data-reveal>
-            <div class="project__top"><h3>Rocket Telemetry System</h3><span class="project__date">Mar 2018</span></div>
-            <p>Real-time telemetry for a Mizzou Space Program rocket (launched May 2018). Temperature/humidity/pressure sensors, IMU and GPS over I2C, RF transceiver via Arduino, and SD backup.</p>
-            <ul class="tags"><li>Embedded</li><li>Arduino</li><li>Sensors</li><li>RF</li></ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== Contact ===== -->
     <section class="section contact" id="contact">
       <div class="container">
-        <span class="eyebrow">06 — Contact</span>
+        <span class="eyebrow">05 — Contact</span>
         <h2 class="bigtitle">Let's Connect</h2>
         <p class="contact__lead">Interested in collaborating on AI agents, mobile automation, or software-engineering research? I'd love to hear from you.</p>
         <a href="mailto:linqg327@gmail.com" class="btn btn--primary btn--lg">Email me ✉️</a>
         <div class="contact__socials">
           <a href="https://github.com/pockyitachi" target="_blank" rel="noopener">GitHub</a>
           <a href="mailto:linqg327@gmail.com">linqg327@gmail.com</a>
-          <a href="tel:+14378180327">(437) 818-0327</a>
           <a href="assets/files/Linqiang_Guo_Resume_2026.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
         </div>
       </div>
@@ -322,6 +284,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/editorial.js?v=20260623"></script>
+  <script src="assets/js/editorial.js?v=2"></script>
 </body>
 </html>

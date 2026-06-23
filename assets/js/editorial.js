@@ -31,32 +31,30 @@
      iridescent palette — so the pointer carves a glowing,
      colourful trail through the pixels.
      -------------------------------------------------------- */
-  var canvas = document.getElementById("heroCanvas");
-  var hero = canvas ? canvas.closest(".hero") : null;
+  var fxCanvas = document.getElementById("fxCanvas");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (canvas && hero && !reduce) {
-    var ctx = canvas.getContext("2d");
+  if (fxCanvas && !reduce) {
+    var ctx = fxCanvas.getContext("2d");
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var SPACING = 34;       // gap between dots
-    var RADIUS = 150;       // cursor influence radius
+    var SPACING = 26;       // gap between dots (smaller = denser)
+    var RADIUS = 170;       // cursor influence radius
     var dots = [];
     var W = 0, H = 0;
     // iridescent palette (matches the CSS --c1..--c4)
     var palette = [[255, 46, 154], [124, 77, 255], [24, 199, 255], [255, 210, 63]];
     var BASE = [150, 150, 165]; // dim resting colour
 
-    // smoothed pointer, in canvas-local coords; start off-screen
+    // smoothed pointer in viewport coords; start off-screen
     var mx = -9999, my = -9999, sx = -9999, sy = -9999;
 
     function build() {
-      var rect = hero.getBoundingClientRect();
-      W = rect.width; H = rect.height;
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
+      W = window.innerWidth; H = window.innerHeight;
+      fxCanvas.width = Math.round(W * dpr);
+      fxCanvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       dots = [];
-      var cols = Math.ceil(W / SPACING), rows = Math.ceil(H / SPACING);
+      var cols = Math.ceil(W / SPACING) + 1, rows = Math.ceil(H / SPACING) + 1;
       var ox = (W - (cols - 1) * SPACING) / 2;
       var oy = (H - (rows - 1) * SPACING) / 2;
       for (var r = 0; r < rows; r++) {
@@ -69,8 +67,8 @@
 
     function lerp(a, b, t) { return a + (b - a) * t; }
 
-    function frame() {
-      sx += (mx - sx) * 0.14; sy += (my - sy) * 0.14;
+    function tick() {
+      sx += (mx - sx) * 0.16; sy += (my - sy) * 0.16;
       ctx.clearRect(0, 0, W, H);
       for (var i = 0; i < dots.length; i++) {
         var d = dots[i];
@@ -79,11 +77,11 @@
         var t = dist < RADIUS ? (1 - dist / RADIUS) : 0;
         t = t * t; // ease
         var ang = Math.atan2(dy, dx);
-        var push = t * 16;
+        var push = t * 18;
         var x = d.bx + Math.cos(ang) * push;
         var y = d.by + Math.sin(ang) * push;
-        var size = 1 + t * 2.6;
-        var a = 0.10 + t * 0.9;
+        var size = 1.7 + t * 2.8;          // bigger dots overall
+        var a = 0.16 + t * 0.84;           // a touch more visible at rest
         var rr = Math.round(lerp(BASE[0], d.col[0], t));
         var gg = Math.round(lerp(BASE[1], d.col[1], t));
         var bb = Math.round(lerp(BASE[2], d.col[2], t));
@@ -92,12 +90,12 @@
         ctx.arc(x, y, size, 0, Math.PI * 2);
         ctx.fill();
       }
-      requestAnimationFrame(frame);
+      requestAnimationFrame(tick);
     }
 
+    // canvas is fixed at viewport 0,0, so pointer coords map directly
     window.addEventListener("pointermove", function (e) {
-      var rect = hero.getBoundingClientRect();
-      mx = e.clientX - rect.left; my = e.clientY - rect.top;
+      mx = e.clientX; my = e.clientY;
     }, { passive: true });
     window.addEventListener("pointerout", function () { mx = -9999; my = -9999; });
 
@@ -107,7 +105,7 @@
     });
 
     build();
-    requestAnimationFrame(frame);
+    requestAnimationFrame(tick);
   }
 
   /* --------------------------------------------------------
