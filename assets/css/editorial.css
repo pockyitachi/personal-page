@@ -34,6 +34,39 @@ a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height: 1; letter-spacing: 0.01em; }
 
+/* ===== Intro loader ===== */
+.loader {
+  position: fixed; inset: 0; z-index: 10000; background: var(--ink);
+  display: grid; place-items: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.loader.is-done { opacity: 0; visibility: hidden; }
+.loader__inner { text-align: center; }
+.loader__name {
+  display: block; font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5vw, 3rem); letter-spacing: 0.04em; text-transform: uppercase;
+  background: linear-gradient(120deg, var(--c1), var(--c2), var(--c3));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.loader__bar { display: block; width: 180px; height: 2px; margin: 18px auto 0; background: var(--line); border-radius: 2px; overflow: hidden; }
+.loader__bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--c1), var(--c3)); animation: load 1s ease forwards; }
+@keyframes load { to { width: 100%; } }
+
+/* ===== Custom cursor (enabled by JS on fine-pointer devices) ===== */
+.cursor-dot, .cursor-ring { display: none; }
+.has-custom-cursor { cursor: none; }
+.has-custom-cursor a, .has-custom-cursor button, .has-custom-cursor .reveal-frame { cursor: none; }
+.has-custom-cursor .cursor-dot, .has-custom-cursor .cursor-ring {
+  display: block; position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+  border-radius: 50%; transform: translate(-50%, -50%); will-change: transform;
+}
+.has-custom-cursor .cursor-dot { width: 6px; height: 6px; background: var(--paper); }
+.has-custom-cursor .cursor-ring {
+  width: 34px; height: 34px; border: 1.5px solid rgba(244,241,234,0.5);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.has-custom-cursor .cursor-ring.is-hover { width: 56px; height: 56px; border-color: transparent; background: rgba(124,77,255,0.2); }
+
 /* full-page dot-grid canvas behind everything */
 .fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 /* keep all real content above the canvas */
@@ -238,4 +271,5 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
   .fx-canvas { display: none; }
+  .loader { display: none; }
 }
