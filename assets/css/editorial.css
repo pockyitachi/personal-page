@@ -135,8 +135,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
 .hero__name {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 700; font-optical-sizing: auto; font-style: normal;
-  font-size: clamp(2rem, 7.4vw, 4.7rem); line-height: 1.02; letter-spacing: -0.015em;
-  text-transform: none; white-space: nowrap; margin-bottom: 18px;
+  font-size: clamp(2rem, 7.4vw, 4.7rem); line-height: 1.2; letter-spacing: -0.015em;
+  text-transform: none; white-space: nowrap; margin-bottom: 14px; padding-bottom: 0.1em;
+  overflow: visible;
   background: radial-gradient(circle 340px at var(--mx) var(--my),
               var(--c1) 0%, var(--c2) 26%, var(--c3) 50%, var(--paper) 74%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
